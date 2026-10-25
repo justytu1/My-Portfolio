@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Just Dominguez Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky identity column on the left, scrolling case-file sections on the right; stacks to one column on phones. */
+:root {
+  --bg: #0d1419;
+  --surface: #151f27;
+  --fg: #e6ecf1;
+  --muted: #9aa9b6;
+  --line: #26343f;
+  --accent: #f0a04b;
+  --accent-soft: #3a2a18;
+  --accent2: #4fd1c5;
+  --accent2-soft: #123331;
+  --shadow: rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  padding-block: 2rem 3rem;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+.shell {
+  max-width: 72rem;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+}
+@media (min-width: 60rem) {
+  .shell { grid-template-columns: 19rem minmax(0, 1fr); gap: 4rem; }
+  .side { position: sticky; top: 2rem; align-self: start; }
+}
+
+/* Identity column */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.75rem;
+}
+h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 8vw, 3.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+}
+.role { font-size: 1.05rem; font-weight: 500; margin: 0 0 0.25rem; }
+.role-sub { color: var(--muted); margin: 0 0 0.25rem; }
+.place { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); margin: 0 0 2rem; }
+
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
+nav a {
+  display: inline-block;
+  padding: 0.35rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: var(--muted);
+  border-bottom: 1px solid transparent;
+}
+nav a:hover { color: var(--fg); border-bottom-color: var(--accent); }
+@media (min-width: 60rem) {
+  nav ul { flex-direction: column; gap: 0.1rem; }
+  nav a::before { content: "> "; color: var(--accent); opacity: 0; }
+  nav a:hover::before { opacity: 1; }
+}
+
+/* Sections */
+main { display: flex; flex-direction: column; gap: 3.5rem; min-width: 0; }
+section { min-width: 0; scroll-margin-top: 1.5rem; }
+h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.6rem;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line);
+  text-wrap: balance;
+}
+p { margin: 0 0 1rem; max-width: 65ch; }
+p:last-child { margin-bottom: 0; }
+
+/* Status board */
+.board {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.board div {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.8rem 1.1rem;
+  border-top: 1px solid var(--line);
+  align-items: baseline;
+}
+.board div:first-child { border-top: 0; }
+.board dt {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.board dd { margin: 0; font-weight: 500; }
+@media (max-width: 30rem) {
+  .board div { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
+}
+
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--accent2-soft);
+  color: var(--accent2);
+  border-radius: 3px;
+  padding: 0.1rem 0.45rem;
+  margin-left: 0.4rem;
+  white-space: nowrap;
+  vertical-align: 0.1em;
+}
+
+/* Skills */
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  gap: 2rem 2.5rem;
+}
+.group { min-width: 0; }
+.group h3 {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.6rem;
+}
+.group ul { list-style: none; margin: 0; padding: 0; }
+.group li {
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--line);
+  line-height: 1.45;
+}
+.group li:last-child { border-bottom: 1px solid var(--line); }
+
+/* Projects gallery */
+.note { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+.gallery {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1.1rem;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--line);
+  border-radius: 6px;
+  padding: 1.1rem 1.2rem 1.2rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card:hover {
+  border-color: var(--accent2);
+  border-top-color: var(--accent);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 28px -10px var(--shadow), 0 0 0 1px var(--accent2-soft);
+}
+.card p { margin: 0; }
+.card-kind {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.card h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.2rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+.card > p:not(.card-kind):not(.card-meta) { color: var(--muted); font-size: 0.95rem; line-height: 1.55; }
+.card-meta { margin-top: auto !important; padding-top: 0.5rem; font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+
+/* Strengths */
+.strengths {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 1rem;
+}
+.strengths li {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1rem 1.1rem;
+  font-weight: 500;
+  min-width: 0;
+}
+
+footer {
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="side">
+    <p class="eyebrow">Portfolio</p>
+    <h1>Just Dominguez</h1>
+    <p class="role">System Administrator</p>
+    <p class="role-sub">Cybersecurity Professional (In Progress)</p>
+    <p class="place">Hawthorne, NJ</p>
+    <nav aria-label="Sections">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#strengths">Strengths</a></li>
+        <li><a href="#outside">Outside work</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="about" aria-labelledby="about-h">
+      <h2 id="about-h">About Me</h2>
+      <dl class="board" aria-label="Current status">
+        <div><dt>Role</dt><dd>System Administrator</dd></div>
+        <div><dt>Environment</dt><dd>Research organization supporting pharma and biotech drug testing and clinical trials</dd></div>
+        <div><dt>Studying</dt><dd>Bachelor’s in Cybersecurity</dd></div>
+        <div><dt>Certification</dt><dd>Security+<span class="tag">In progress</span></dd></div>
+        <div><dt>Target</dt><dd>SOC role</dd></div>
+      </dl>
+      <div style="height:1.5rem"></div>
+      <p>I’m a System Administrator working in a research organization that supports pharmaceutical and biotechnology companies as they test new drugs and run clinical trials. My day-to-day revolves around keeping critical systems stable, secure, and efficient, from managing M365 environments to troubleshooting complex technical issues that impact scientific operations.</p>
+      <p>I’m currently completing my Bachelor’s in Cybersecurity with the goal of transitioning into a SOC role. I’m passionate about threat detection, cloud security, and staying ahead of emerging techniques in the cybersecurity landscape. With hands-on experience across networking, system administration, and business continuity planning, I’m building a strong foundation to support enterprise-level security operations.</p>
+    </section>
+
+    <section id="skills" aria-labelledby="skills-h">
+      <h2 id="skills-h">Skills</h2>
+      <div class="groups">
+        <div class="group">
+          <h3>Cybersecurity &amp; SOC Foundations</h3>
+          <ul>
+            <li>Security+<span class="tag">In progress</span></li>
+            <li>Threat detection &amp; incident response fundamentals</li>
+            <li>Vulnerability management &amp; remediation</li>
+            <li>SIEM concepts (log analysis, alert triage, correlation)</li>
+            <li>Identity &amp; access management (IAM)</li>
+            <li>MFA administration (Okta, Microsoft Authenticator, iMessage MFA habits)</li>
+            <li>Business continuity &amp; disaster recovery planning</li>
+            <li>Understanding of NIST, CIS Controls, and basic compliance frameworks</li>
+          </ul>
+        </div>
+        <div class="group">
+          <h3>System Administration</h3>
+          <ul>
+            <li>Windows Server administration</li>
+            <li>Active Directory &amp; Group Policy</li>
+            <li>M365 administration (Exchange, SharePoint, Teams)</li>
+            <li>User provisioning, access control, and permissions management</li>
+            <li>Endpoint management &amp; troubleshooting</li>
+            <li>Network printer, VoIP, and peripheral support</li>
+            <li>Remote support tools &amp; ticketing systems</li>
+          </ul>
+        </div>
+        <div class="group">
+          <h3>Networking</h3>
+          <ul>
+            <li>Cisco networking fundamentals</li>
+            <li>Firewalls, VLANs, and basic routing/switching</li>
+            <li>Network security concepts</li>
+            <li>VPN configuration &amp; troubleshooting</li>
+          </ul>
+        </div>
+        <div class="group">
+          <h3>Cloud &amp; Infrastructure</h3>
+          <ul>
+            <li>Azure fundamentals<span class="tag">AZ-500 path</span></li>
+            <li>M365 cloud security</li>
+            <li>Basic AWS security concepts</li>
+            <li>Virtualization (Hyper-V, VMware)</li>
+          </ul>
+        </div>
+        <div class="group">
+          <h3>IT Support &amp; Operations</h3>
+          <ul>
+            <li>Technical troubleshooting (hardware, software, network)</li>
+            <li>Documentation &amp; knowledge base creation (SharePoint organization)</li>
+            <li>Small business IT support (service design, pricing, outreach)</li>
+            <li>Medical equipment &amp; security camera system support</li>
+            <li>Customer service &amp; communication</li>
+          </ul>
+        </div>
+        <div class="group">
+          <h3>Programming &amp; Tools</h3>
+          <ul>
+            <li>Python (beginner-friendly scripting, automation practice)</li>
+            <li>PowerShell basics</li>
+            <li>TryHackMe labs<span class="tag">SOC Level 1 path</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" aria-labelledby="projects-h">
+      <h2 id="projects-h">Projects</h2>
+      <p class="note">Project cards are built from my skills list. Detailed write-ups are coming.</p>
+      <ul class="gallery">
+        <li class="card">
+          <p class="card-kind">Cybersecurity</p>
+          <h3>TryHackMe SOC Level 1 Path</h3>
+          <p>Hands-on labs building SOC analyst fundamentals: log analysis, alert triage, and correlation concepts.</p>
+          <p class="card-meta"><span class="tag" style="margin-left:0">In progress</span></p>
+        </li>
+        <li class="card">
+          <p class="card-kind">Cloud security</p>
+          <h3>Azure AZ-500 Study Path</h3>
+          <p>Working from Azure fundamentals toward security engineering, alongside M365 cloud security in my daily work.</p>
+          <p class="card-meta"><span class="tag" style="margin-left:0">In progress</span></p>
+        </li>
+        <li class="card">
+          <p class="card-kind">Operations</p>
+          <h3>M365 Administration</h3>
+          <p>Managing Exchange, SharePoint, and Teams for a research organization that supports clinical trials.</p>
+          <p class="card-meta">Ongoing, at work</p>
+        </li>
+        <li class="card">
+          <p class="card-kind">Documentation</p>
+          <h3>SharePoint Knowledge Base</h3>
+          <p>Organizing SharePoint content into a clear, searchable knowledge base for everyday IT support.</p>
+          <p class="card-meta">Ongoing, at work</p>
+        </li>
+        <li class="card">
+          <p class="card-kind">Resilience</p>
+          <h3>Business Continuity &amp; DR Planning</h3>
+          <p>Planning for how critical systems keep running and recover when something goes wrong.</p>
+          <p class="card-meta">Experience</p>
+        </li>
+        <li class="card">
+          <p class="card-kind">Small business</p>
+          <h3>Small Business IT Support</h3>
+          <p>Designing an IT support service for small businesses, including service scope, pricing, and outreach.</p>
+          <p class="card-meta">Experience</p>
+        </li>
+        <li class="card">
+          <p class="card-kind">Automation</p>
+          <h3>Python &amp; PowerShell Practice</h3>
+          <p>Beginner-friendly scripting to automate routine admin tasks and build confidence with code.</p>
+          <p class="card-meta">Practice</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="strengths" aria-labelledby="strengths-h">
+      <h2 id="strengths-h">Personal strengths</h2>
+      <ul class="strengths">
+        <li>Clear, structured communication</li>
+        <li>Strong problem-solving mindset</li>
+        <li>Adaptability in fast-paced environments</li>
+        <li>Continuous learning and professional development</li>
+      </ul>
+    </section>
+
+    <section id="outside" aria-labelledby="outside-h">
+      <h2 id="outside-h">Outside work</h2>
+      <p>Outside of work, I’m committed to personal growth, whether that’s studying for certifications, improving my technical skills, or staying active. I enjoy working out, and lately I’ve become a weekend bowler (with full “I might buy my own ball” energy). I’m driven, curious, and always looking for ways to level up both professionally and personally.</p>
+    </section>
+
+    <footer>Just Dominguez · Hawthorne, NJ</footer>
+  </main>
+</div>
+</body>
+</html>
